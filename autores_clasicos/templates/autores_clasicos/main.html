@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Autores clásicos</title>
+    <link rel="stylesheet" href="{% static 'autores_clasicos/css/autores_clasicos.css' %}">
+</head>
+<body>
+
+    <h1>Mi web de autores</h1>
+
+    <nav>
+        <a href="{% url 'descripcion' %}">Quiénes somos</a>
+        <a href="{% url 'contacto' %}">Contacto</a>
+    </nav>
+
+    {% block contenido %}
+    {% endblock %}
+
+    <footer>
+        Mi página de autores
+    </footer>
+
+</body>
+</html>

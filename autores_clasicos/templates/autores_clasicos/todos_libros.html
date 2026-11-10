@@ -1,0 +1,9 @@
+{% extends 'autores_clasicos/main.html' %}
+{% block contenido %}
+{% for libro in libros %}
+    <h3>Nombre: {{libro.nombre}}</h3>
+    <h3>Paginas: {{libro.num_paginas}}</h3>
+{% endfor %}
+    <a href="{% url 'inicio' %}">Inicio</a>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'autores_clasicos/main.html' %}
+{% block contenido %}
+    <h2>{{ autor.nombre }}</h2>
+
+     {% if autor.imagen %}
+        <img src="{{ autor.imagen.url }}"
+             alt="Foto de {{ autor.nombre }}"
+             width="250">
+    {% endif %}
+    
+    <p>Obras: {{ autor.numeroObras }}</p>
+    <p>Fecha: {{ autor.fechaNacimiento }}</p>
+    <p>¿Funado?: {{ autor.funado }}</p>
+    <hr>
+    <a href="{% url 'libros_autor_actual'  id=autor.id %}">Ver sus libros</a>
+    <hr>
+    <a href="{% url 'inicio' %}">Volver</a>
+
+{% endblock %}
