@@ -1,0 +1,15 @@
+{% extends 'autores_clasicos/main.html' %}
+{% block contenido %}
+    {% for edificio in edificios_diccionario %}
+    <h1>Nombre {{edificio.nombre}}</h1>
+    <h2>Ciudad {{edificio.ciudad}}</h2>
+    <h2>Editoriales: </h2>
+    {% for editorial in edificio.editorial_set.all %}
+    <p>                        Nombre: {{editorial.nombre}}</p>
+
+    {% endfor %}
+
+
+    {% endfor %}
+
+{% endblock %}

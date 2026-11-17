@@ -1,24 +1,29 @@
 
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count, Avg, Max, Min, Sum
-from .models import Autor, Libro
+from .models import Autor, Libro, Editorial, Edificio
 
 '''
-AGGREGATE-> ¿cuantas pags tienen todos los libros juntos? en java hacemos un bucle y guardamos numPag en variable
+TAREA PARA NATI-> AÑADIR CLASS GENERO CON TEXT CHOICES
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AGGREGATE->DA DICCIONARIO ¿cuantas pags tienen todos los libros juntos? en java hacemos un bucle y guardamos numPag en variable
 pero en djangos hacemos:
 resultado= Libro.objects.aggregate(total=sum('num_paginas'))
 te da -> {'total': 1500}
 
 también está avg, max, min, count
+
 ----------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------
 
-ANNOTATE-> ¿cuántas páginas ha escrito cada autor en su vida? hariamos bucle también en java
+ANNOTATE->DA QUERYSET ¿cuántas páginas ha escrito cada autor en su vida? hariamos bucle también en java
 quiero muchos resultados. Uno para Osamu, otro para Haruki
 
 autores= Autor.object.annotate(total_paginas=Sum('libro_num_paginas')
 
+
+---------------------------------------------------------------------
 *ten en cuenta que en libro tengo una fk que es autor. Asi que django crea de forma automática en Autor un
 "libro_set" (si, django crea tmb la relacioń inversa)
 
@@ -26,6 +31,43 @@ Cada guión bajo significa "entra dentro de". Así que:
 entra en libro>entra en num_paginas
 libro_num_paginas > django sabe que estoy accediendo a AUTOR > SU RELACION CON CADA LIBRO> ATRIBUTO DE LIBRO NUM_PAGINAS
 Se puede hacer del reves, si. Django lo entiende.
+
+con related_name consulto objetos relacionados en forma inversa
+si en Libro tengo la col de Autor como fk y le pongo el parametro de related_name:
+class Libro(models.Model):
+    autor = models.ForeignKey(
+        Autor,
+        on_delete=models.CASCADE,
+        related_name='mariquita'
+    )
+yo puedo hacer
+autor.mariquita.all()
+
+
+
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+condiciones or con q
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+con related_name consulto objetos relacionados en forma inversa
+si en Libro tengo la col de Autor como fk y le pongo el parametro de related_name:
+class Libro(models.Model):
+    autor = models.ForeignKey(
+        Autor,
+        on_delete=models.CASCADE,
+        related_name='mariquita'
+    )
+     
+       yo puedo hacer
+autor.mariquita.all()
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+- null=True → permite guardar NULL en la base de datos.
+- blank=True → permite dejar el campo vacío en los formularios y validaciones.
 '''
 # PÁGINA PRINCIPAL y ANNOTATE
 def funcion_principal(request):
@@ -79,3 +121,14 @@ def estadisticas(request):
     return render(request, 'autores_clasicos/estadisticas.html', {
         'datos': datos
     })
+
+def editorial_libros(request):
+    #estoy declarando una relacion, no haciendo una consulta básica
+    editoriales = Editorial.objects.all()
+    return render(request, 'autores_clasicos/editorial_completa.html', {'editoriales': editoriales})
+
+#MOSTRAR EDIFICIOS
+
+def edificios_todos(request):
+    edificios= Edificio.objects.all()
+    return render(request, 'autores_clasicos/edificios.html', {'edificios_diccionario': edificios})

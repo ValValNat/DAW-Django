@@ -1,0 +1,20 @@
+{% extends 'autores_clasicos/main.html' %}
+{% block contenido %}
+{% for editorial in editoriales %}
+    <h3>Nombre: {{editorial.nombre}}</h3>
+
+
+        {% for edificio in editorial.edificio_set.all %}
+        <p>Edificios: {{edificio.nombre}}</p>
+
+
+        {% endfor %}
+
+    {% for libro in editorial.libro_set.all %}
+    <p>Libros: {{libro.nombre}}</p>
+    {% endfor %}
+
+{% endfor %}
+    <a href="{% url 'inicio' %}">Inicio</a>
+
+{% endblock %}
