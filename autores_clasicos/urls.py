@@ -6,5 +6,6 @@ urlpatterns= [
     path('detalle/<int:id>/', views.detalle_autor, name='detalle_autor'),
     path('descripcion/', views.descripcion_web, name='descripcion'),
     path('contacto/', views.contacto_empresa, name='contacto'),
-    path('libros/<int:id>', views.libros_autor, name='libros_autor_actual')
+    path('libros/<int:id>', views.libros_autor, name='libros_autor_actual'),
+    path('estadisticas/', views.estadisticas, name='estadisticas'),
 ]   

@@ -1,0 +1,20 @@
+
+{% extends 'autores_clasicos/main.html' %}
+
+{% block contenido %}
+
+<h2>Estadísticas de nuestra biblioteca</h2>
+
+<p>Total de libros: {{ datos.total_libros }}</p>
+
+<p>Media de páginas: {{ datos.media_paginas|floatformat:2 }}</p>
+
+<p>Libro con más páginas: {{ datos.maximo_paginas }}</p>
+
+<p>Libro con menos páginas: {{ datos.minimo_paginas }}</p>
+
+<p>Suma de todas las páginas: {{ datos.suma_paginas }}</p>
+
+<a href="{% url 'inicio' %}">Volver al inicio</a>
+
+{% endblock %}

@@ -1,7 +1,21 @@
-{% extends 'autores_clasicos/main.html' %}
-{% block contenido %}
-{% for autor in autores %}
-    <h2>{{forloop.counter}}.<a href="{% url 'detalle_autor' id=autor.id %}">{{ autor.nombre }}</a></h2>
-{% endfor %}
-{% endblock %}
 
+{% extends 'autores_clasicos/main.html' %}
+
+{% block contenido %}
+
+<h2>Nuestros autores clásicos</h2>
+
+{% for autor in autores %}
+
+    <h2>
+        {{ forloop.counter }}.
+        <a href="{% url 'detalle_autor' id=autor.id %}">
+            {{ autor.nombre }}
+        </a>
+    </h2>
+
+    <p>Libros registrados: {{ autor.total_libros }}</p>
+
+{% endfor %}
+
+{% endblock %}
