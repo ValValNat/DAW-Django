@@ -3,18 +3,23 @@
 {% for editorial in editoriales %}
     <h3>Nombre: {{editorial.nombre}}</h3>
 
+                {% for edificio in editorial.edificio.all %}
+                <p>Edificios: {{edificio.nombre}}</p>
+                {% endfor %}
 
-        {% for edificio in editorial.edificio_set.all %}
-        <p>Edificios: {{edificio.nombre}}</p>
+    <p>Número de libros que tiene la editorial: {{editorial.num_libros}}</p>
 
-
-        {% endfor %}
-
-    {% for libro in editorial.libro_set.all %}
-    <p>Libros: {{libro.nombre}}</p>
-    {% endfor %}
+                {% for libro in editorial.libro_set.all %}
+                <p>Libros: {{libro.nombre}}</p>
+                {% endfor %}
 
 {% endfor %}
     <a href="{% url 'inicio' %}">Inicio</a>
 
 {% endblock %}
+
+<!--
+
+Editorial.edificio	editorial.edificio.all()
+Edificio.editorial	editorial.edificio_set.all() -> el set es para cuando esa clase python no tiene ese atributo
+-->

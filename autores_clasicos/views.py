@@ -4,7 +4,6 @@ from django.db.models import Count, Avg, Max, Min, Sum
 from .models import Autor, Libro, Editorial, Edificio
 
 '''
-TAREA PARA NATI-> AÑADIR CLASS GENERO CON TEXT CHOICES
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AGGREGATE->DA DICCIONARIO ¿cuantas pags tienen todos los libros juntos? en java hacemos un bucle y guardamos numPag en variable
 pero en djangos hacemos:
@@ -71,12 +70,22 @@ autor.mariquita.all()
 '''
 # PÁGINA PRINCIPAL y ANNOTATE
 def funcion_principal(request):
-    context = Autor.objects.annotate(
+
+    # TODOS los autores, con el número de libros
+    todos_autores = Autor.objects.annotate(
         total_libros=Count('libro')
-    )
+    ).prefetch_related('libro_set') #dame en verdad todos-autores = libros agrupados por autor
+
+    # SOLO los autores que NO están funados
+    autores_no_funados = Autor.objects.filter( #y ya miro del autor si esta funado o no para guardarlo
+        funado=False
+    ).annotate(
+        total_libros=Count('libro')
+    ).prefetch_related('libro_set')
 
     return render(request, 'autores_clasicos/base.html', {
-        'autores': context
+        'todos_autores': todos_autores,
+        'autores_no_funados': autores_no_funados
     })
 
 
@@ -124,7 +133,9 @@ def estadisticas(request):
 
 def editorial_libros(request):
     #estoy declarando una relacion, no haciendo una consulta básica
-    editoriales = Editorial.objects.all()
+    editoriales = Editorial.objects.annotate(
+        num_libros=Count('libro')
+    )
     return render(request, 'autores_clasicos/editorial_completa.html', {'editoriales': editoriales})
 
 #MOSTRAR EDIFICIOS

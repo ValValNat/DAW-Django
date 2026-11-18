@@ -5,17 +5,41 @@
 
 <h2>Nuestros autores clásicos</h2>
 
-{% for autor in autores %}
+{% for autor in todos_autores %}
 
-    <h2>
-        {{ forloop.counter }}.
-        <a href="{% url 'detalle_autor' id=autor.id %}">
-            {{ autor.nombre }}
-        </a>
-    </h2>
+            <h2>
+                        <!--VARIABLE ESPECIAL PARA CONTAR ES COMO UN COUNT(LIBROS)-->
+                        {{ forloop.counter }}.
+                        <a href="{% url 'detalle_autor' id=autor.id %}">
+                            {{ autor.nombre }}
 
-    <p>Libros registrados: {{ autor.total_libros }}</p>
+                        </a>
+            </h2>
 
+            <p>Libros registrados: {{ autor.total_libros }}</p>
+
+
+<!--  ¿tiene AUTOR la columna LIBRO? No, LIBRO tiene la columna AUTOR. Asi que debo usar -->
+            {% for libro in autor.libro_set.all %}
+
+                    <p>{{libro.nombre}}</p>
+
+            {% endfor %}
+
+
+
+{% endfor %}
+
+<!--muestra solo los libros cuyo autor no este funado-->
+<h2>LIBROS CON AUTOR NO FUNADO</h2>
+
+{% for autor in autores_no_funados %}
+
+    <h3>Total libros: {{ autor.total_libros }}</h3>
+
+    {% for libro in autor.libro_set.all %}
+        <p>{{ libro.nombre }}</p>
+    {% endfor %}
 {% endfor %}
 
 {% endblock %}
